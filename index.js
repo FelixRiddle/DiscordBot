@@ -11,9 +11,27 @@ const uri = `mongodb+srv://${username}:${password}@test.y6qzu.mongodb.net/myFirs
 
 // Discord.js
 const bot = new Discord.Client();
+/*
 bot.commands = new Discord.Collection();
 bot.cooldowns = new Discord.Collection();
+*/
 
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+
+for(const file of eventFiles) {
+  const event = require(`./events/${file}`);
+  if(event.once) {
+    console.log(`Once`)
+    bot.once(event.name, (...args) => event.execute(...args, bot));
+  } else {
+    console.log(`On`)
+    bot.on('message', msg => {
+      event.execute('message', msg, bot, msg.author.id, bot.id);
+    });
+  }
+}
+
+/*
 const commandFolders = fs.readdirSync('./commands');
 
 for(const folder of commandFolders) {
@@ -90,7 +108,7 @@ bot.on('message', msg => {
     msg.reply('There was an error trying to execute that command!');
   }
 });
-
+*/
 // MongoDB
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
