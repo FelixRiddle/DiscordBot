@@ -2,7 +2,6 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('../config.json');
 const path = require('path');
-//const config = require(path.resolve('./', 'config.json'));
 
 module.exports = {
 	name: 'message',
@@ -11,9 +10,13 @@ module.exports = {
 		client.commands = new Discord.Collection();
 		client.cooldowns = new Discord.Collection();
 
-		console.log('Loading commands...');
+		// Commands path
 		let commandsPath = path.resolve('./', 'commands');
 		const commandFolders = fs.readdirSync(commandsPath);
+
+		// Get args
+		messageArgs = message.content.slice(config.prefix.length).trim().split(/ +/);
+		const commandName = messageArgs.shift().toLowerCase();
 
 		// Read all commands from commands folder
 		for(const folder of commandFolders) {
@@ -28,11 +31,6 @@ module.exports = {
 		if(!message.content.startsWith(config.prefix) || args[0] === args[1]) {
 			return;
 		}
-	
-		console.log(message.content);
-		args = message.content.slice(config.prefix.length).trim().split(/ +/);
-		const commandName = args.shift().toLowerCase();
-		console.log(message.content);
 		
 		// Check the command exists
 		const command = client.commands.get(commandName)
@@ -77,16 +75,15 @@ module.exports = {
 				return message.reply('You can\'t do this!');
 			}
 		}
-	
+		
 		if(command.args && !args.length) {
 			return message.channel.send(`You didn't provide any arguments, ${message.author}`);
 		}
-	
+		
 		try {
-			console.log('Command executed!');
-			command.execute(message, ...args);
-		} catch(error) {
-			console.error(error);
+			command.execute(message, messageArgs);
+		} catch(err) {
+			console.log(err);
 			message.reply('There was an error trying to execute that command!');
 		}
 	},
