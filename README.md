@@ -1,2 +1,2 @@
 # DiscordBot
-Don't pay attention, I'm just following this tutorial: https://discordjs.guide/
+Discord bot made with this tutorial: https://discordjs.guide/

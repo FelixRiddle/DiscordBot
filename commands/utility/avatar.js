@@ -2,20 +2,20 @@ module.exports = {
   name: 'avatar',
   description: 'Avatar command',
   aliases: ['icon', 'pfp'],
-  execute(msg, args) {
+  execute(message, messageArgs) {
     // If the message doesn't contain any users mention
     if(!msg.mentions.users.size) {
-      return msg.channel.send(`Your avatar <${msg.author.displayAvatarURL({ format: 'png',
+      return message.channel.send(`Your avatar <${message.author.displayAvatarURL({ format: 'png',
         dynamic: true})}>`);
     }
 
-    const avatarList = msg.mentions.users.map(user => {
+    const avatarList = message.mentions.users.map(user => {
       return `${user.username}'s avatar: <${user.displayAvatarURL({ format: 'png', dynamic: 'true'})}`
     });
 
-    const taggedUser = msg.mentions.users.first();
+    const taggedUser = message.mentions.users.first();
 
-    msg.channel.send(`User: ${taggedUser}`);
-    msg.channel.send(avatarList);
+    message.channel.send(`User: ${taggedUser}`);
+    message.channel.send(avatarList);
   },
 };

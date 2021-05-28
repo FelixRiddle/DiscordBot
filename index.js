@@ -30,7 +30,7 @@ for(const file of eventFiles) {
   } else {
     bot.on(event.name, message => {
       event.execute(event.name, message, bot, mongoClient,
-        mongoClient, // args[0]
+        'foo', // args[0]
         bot.id);
     });
   }

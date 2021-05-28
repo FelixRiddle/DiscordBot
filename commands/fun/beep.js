@@ -1,7 +1,7 @@
 module.exports = {
   name: 'beep',
-  description: 'Ping',
-  execute(msg, args) {
-    msg.channel.send('boop')
+  description: 'Beep',
+  execute(message, messageArgs) {
+    message.channel.send('boop')
   },
 };

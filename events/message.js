@@ -72,17 +72,17 @@ module.exports = {
 		// Check for permissions
 		if(command.permissions) {
 			const authorPerms = message.channel.permissionsFor(message.author);
-			if(!authorPerms || authorPerms.has(command.permissions)) {
+			if(!authorPerms || !authorPerms.has(command.permissions)) {
 				return message.reply('You can\'t do this!');
 			}
 		}
 		
-		if(command.args && !args.length) {
+		if(command.args && !messageArgs.length) {
 			return message.channel.send(`You didn't provide any arguments, ${message.author}`);
 		}
 
 		try {
-			command.execute(message, messageArgs, mongoClient);
+			command.execute(message, messageArgs, mongoClient, args);
 		} catch(err) {
 			console.log(err);
 			message.reply('There was an error trying to execute that command!');
