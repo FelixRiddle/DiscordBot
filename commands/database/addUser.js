@@ -5,7 +5,7 @@ module.exports = {
   name: 'addUser',
   description: 'Add a user to the database',
   aliases: ['adduser'],
-  execute(message, args) {
-    insertUpdateUser(message, args);
+  execute(message, messageArgs, mongoClient) {
+    insertUpdateUser(message, messageArgs, mongoClient);
   },
 };

@@ -2,10 +2,11 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('../config.json');
 const path = require('path');
+const { MongoClient } = require('mongodb');
 
 module.exports = {
 	name: 'message',
-	execute(eventName, message, client, ...args) {
+	execute(eventName, message, client, mongoClient, ...args) {
 
 		client.commands = new Discord.Collection();
 		client.cooldowns = new Discord.Collection();
@@ -28,7 +29,7 @@ module.exports = {
 		}
 		
 		// If the received message doesn't start with the prefix
-		if(!message.content.startsWith(config.prefix) || args[0] === args[1]) {
+		if(!message.content.startsWith(config.prefix) || message.author.id === args[1]) {
 			return;
 		}
 		
@@ -79,9 +80,9 @@ module.exports = {
 		if(command.args && !args.length) {
 			return message.channel.send(`You didn't provide any arguments, ${message.author}`);
 		}
-		
+
 		try {
-			command.execute(message, messageArgs);
+			command.execute(message, messageArgs, mongoClient);
 		} catch(err) {
 			console.log(err);
 			message.reply('There was an error trying to execute that command!');

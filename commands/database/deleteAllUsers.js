@@ -5,7 +5,7 @@ module.exports = {
   name: 'deleteAllUsers',
   description: 'Delete all users from the database.',
   aliases: ['deleteallusers'],
-  execute(message, args) {
-    deleteAllUsers(message, args);
+  execute(message, args, mongoClient) {
+    deleteAllUsers(message, args, mongoClient);
   },
 };
