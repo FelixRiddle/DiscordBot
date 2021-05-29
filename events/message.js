@@ -2,14 +2,13 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('../config.json');
 const path = require('path');
-const { MongoClient } = require('mongodb');
 
 module.exports = {
 	name: 'message',
-	execute(eventName, message, client, mongoClient, ...args) {
+	execute(eventName, message, discordClient, mongoClient, ...args) {
 
-		client.commands = new Discord.Collection();
-		client.cooldowns = new Discord.Collection();
+		discordClient.commands = new Discord.Collection();
+		discordClient.cooldowns = new Discord.Collection();
 
 		// Commands path
 		let commandsPath = path.resolve('./', 'commands');
@@ -24,7 +23,7 @@ module.exports = {
 			const commandFiles = fs.readdirSync(`${commandsPath}/${folder}`).filter(file => file.endsWith('.js'));
 			for(const file of commandFiles) {
 				const setCommand = require(`${commandsPath}/${folder}/${file}`);
-				client.commands.set(setCommand.name, setCommand);
+				discordClient.commands.set(setCommand.name, setCommand);
 			}
 		}
 		
@@ -34,8 +33,8 @@ module.exports = {
 		}
 		
 		// Check the command exists
-		const command = client.commands.get(commandName)
-			|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+		const command = discordClient.commands.get(commandName)
+			|| discordClient.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 		
 		if(!command) {
 			message.reply('That command doesn\'t exist!');
@@ -43,7 +42,7 @@ module.exports = {
 		}
 	
 		// Check commands cooldown
-		const { cooldowns } = client;
+		const { cooldowns } = discordClient;
 	
 		if(!cooldowns.has(command.name)) {
 			cooldowns.set(command.name, new Discord.Collection());

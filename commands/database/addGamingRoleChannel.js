@@ -1,23 +1,18 @@
 const path = require('path');
-const roleManager = require(path.resolve('./', 'roles', 'roleManager.js'));
+const gamingRoleManager = require(path.resolve('./', 'roles', 'gamingRoleManager'));
 const addDiscordServer = require(path.resolve('./', 'database', 'discordServers', 'addDiscordServer'));
 
 module.exports = {
-  name: 'addRoleChannel',
-  description: 'Add the channel used to give roles to people.',
+  name: 'addGamingRoleChannel',
+  description: 'Add the channel used to give roles to people for gaming.',
   permissions: 'ADMINISTRATOR',
   args: true,
   usage: '<Channel ID>',
-  aliases: ['adduser'],
-  execute(message, messageArgs, mongoClient) {
-    let loc = '[addGamingRoleChannel]';
-
-		for(let i = 0; i < messageArgs.length; i++) {
-			console.log(loc + 'Message args: ' + messageArgs[i]);
-		}
+  aliases: ['addgamingrolechannel'],
+  execute(message, messageArgs, mongoClient, args) {
 
     addDiscordServer(message, messageArgs, mongoClient);
 
-    roleManager(message, messageArgs[0]);
+    gamingRoleManager(message, messageArgs, mongoClient);
   },
 };
