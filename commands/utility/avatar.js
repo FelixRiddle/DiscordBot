@@ -10,7 +10,7 @@ module.exports = {
     }
 
     const avatarList = message.mentions.users.map(user => {
-      return `${user.username}'s avatar: <${user.displayAvatarURL({ format: 'png', dynamic: 'true'})}`
+      return `${user.username}'s avatar: <${user.displayAvatarURL({ format: 'png', dynamic: 'true'})}>`
     });
 
     const taggedUser = message.mentions.users.first();

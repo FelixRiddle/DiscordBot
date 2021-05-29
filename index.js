@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const { MongoClient } = require('mongodb');
-const { isRegExp } = require('util');
+const canvas = require('canvas');
 
 const username = encodeURIComponent(process.env.MONGODB_USERNAME);
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
@@ -25,7 +25,7 @@ const bot = new Discord.Client();
 // For each event
 for(const file of eventFiles) {
   const event = require(`./events/${file}`);
-  const welcomeChannelID = '834874996797997157';
+  const welcomeChannelID = '848189917519544370';
 
   if(event.once) {
     bot.once(event.name, () => {
@@ -34,14 +34,26 @@ for(const file of eventFiles) {
   } if(event.name === 'guildMemberAdd') { // When a user joins the server
     bot.on(event.name, member => {
       const channel = bot.channels.cache.get(welcomeChannelID);
-      
-      channel.send('**' + member.user.username + `**, has joined the server!`);
+
+      channel.send(new Discord.MessageEmbed()
+        .setColor('#00FF00')
+        .setThumbnail(member.user.defaultAvatarURL)
+        .setTitle('**' + member.user.username + '**, has joined the server!'))
+        .catch(err => {
+          console.log(err);
+        });
     });
-  } if(event.name === 'guildMemberRemove') {
+  } if(event.name === 'guildMemberRemove') { // When a user leaves the server
     bot.on(event.name, member => {
       const channel = bot.channels.cache.get(welcomeChannelID);
 
-      channel.send('**' + member.user.username + `**, has left the server!`);
+      channel.send(new Discord.MessageEmbed()
+        .setColor('#FF0000')
+        .setThumbnail(member.user.defaultAvatarURL)
+        .setTitle('**' + member.user.username + '**, has left the server!'))
+        .catch(err => {
+          console.log(err);
+        });
     });
   } else {
     bot.on(event.name, message => {
