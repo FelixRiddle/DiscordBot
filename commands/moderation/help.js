@@ -16,7 +16,7 @@ module.exports = {
 		// This means, if the user didn't ask for help on a specific command
 		if(!messageArgs.length) {
 			// Create an array with all the commands and some info
-			data.push(commands.map(command => ' $' + command.name).join('\n'));
+			data.push(commands.map(command => ' **$' + command.name + '**: ' + command.description).join('\n'));
 			data.push(`\nYou can send \`${config.prefix} help [command name]\` to get info on a specific command!`);
 			
 				// inside a command, event listener, etc.
