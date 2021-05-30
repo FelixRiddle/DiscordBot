@@ -6,6 +6,8 @@ const { MongoClient } = require('mongodb');
 const config = require('./config.json');
 const rolesEmoji = require('./roles/rolesEmojis');
 const path = require('path');
+const guildMemberAdd = require('./utility/guild/guildMemberAdd');
+const guildMemberRemove = require('./utility/guild/guildMemberRemove');
 
 const username = encodeURIComponent(process.env.MONGODB_USERNAME);
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
@@ -22,9 +24,6 @@ const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'
 
 // Discord.js
 const discordClient = new Discord.Client();
-
-// TODO: Make dynamic
-const welcomeChannelID = '848189917519544370';
 
 // Create a collection for commands and cooldowns
 discordClient.commands = new Discord.Collection();
@@ -49,7 +48,6 @@ for(const file of eventFiles) {
 
   if(event.name === 'message') {
     discordClient.on(event.name, message => {
-      //const { cooldowns } = discordClient;
 
       // Commands
       if(message.content.startsWith(config.prefix)) {
@@ -64,34 +62,11 @@ for(const file of eventFiles) {
     });
   } else if(event.name === 'guildMemberAdd') { // When a user joins the server
     discordClient.on(event.name, member => {
-      
-      if(welcomeChannelID) {
-        const channel = discordClient.channels.cache.get(welcomeChannelID);
-
-        channel.send(new Discord.MessageEmbed()
-          .setColor('#00FF00')
-          .setThumbnail(member.user.defaultAvatarURL)
-          .setTitle('**' + member.user.username + '**, has joined the server!'))
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      guildMemberAdd(member, mongoClient);
     });
   } else if(event.name === 'guildMemberRemove') { // When a user leaves the server
     discordClient.on(event.name, member => {
-
-      if(welcomeChannelID) {
-        // If it's in the same server/guild
-        const channel = discordClient.channels.cache.get(welcomeChannelID);
-
-        channel.send(new Discord.MessageEmbed()
-          .setColor('#FF0000')
-          .setThumbnail(member.user.defaultAvatarURL)
-          .setTitle('**' + member.user.username + '**, has left the server!'))
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      guildMemberRemove(member, mongoClient);
     });
   } else if(event.name === 'guildCreate') { // When the client joins a server
     discordClient.on(event.name, guild => {

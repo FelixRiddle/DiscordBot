@@ -1,6 +1,8 @@
+const guildMemberAdd = require('../utility/guild/guildMemberAdd');
+
 module.exports = {
 	name: 'guildMemberAdd',
-	execute() {
-		return;
+	execute(member, mongoClient) {
+		guildMemberAdd();
 	}
 }

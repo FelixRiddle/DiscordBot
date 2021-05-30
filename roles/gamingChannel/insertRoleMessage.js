@@ -22,13 +22,13 @@ module.exports = async function insertRoleMessage(message, messageArgs, mongoCli
 			let data = [];
 
 			data.push(`React to get the role.\n`);
-			data.push(`Games list:\n`);
-			data.push(`[🧱] Fortnite\n`);
-			data.push(`[🤺] League of Legends\n`);
-			data.push(`[🌎] Minecraft\n`);
-			data.push(`[⛏️] Terraria\n`);
-			data.push(`[💥] CS: GO\n`);
-			data.push(`[🏹] Valorant\n`);
+			data.push(`Games list:`);
+			data.push(`〖🧱〗 Fortnite`);
+			data.push(`〖🤺〗 League of Legends`);
+			data.push(`〖🌎〗 Minecraft`);
+			data.push(`〖⛏️〗 Terraria`);
+			data.push(`〖💥〗 CS: GO`);
+			data.push(`〖🏹〗 Valorant`);
 			
 			// Send the embed
 			await channel.send(new Discord.MessageEmbed()
