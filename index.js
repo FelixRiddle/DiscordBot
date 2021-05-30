@@ -43,36 +43,6 @@ for(const folder of commandFolders) {
   }
 }
 
-/*
-embed.setAuthor(this.client.user.username, this.client.user.avatarURL());
-embed.setFooter(`${message.author.username} mi prefix es: ${this.client.prefix}`, message.author.avatarURL({dynamic: true}));
-if (!name) {
-    let data = []
-    data.push(`__**Estas son las categorias**__`)
-    this.client.commands.map(commands => {
-        if (data.some(a => a === `**${this.client.prefix}help** \`${commands.category}\``)) return;
-        data.push(`**${this.client.prefix}help** \`${commands.category}\``);
-    })
-    embed.addField(`Tengo un total de ${this.client.commands.size} comandos`, data.join('\n'))
-} else {
-    const cmd = this.client.commands.get(name) || this.client.commands.get(this.client.aliases.get(name));
-    if (cmd) {
-        embed.setDescription([
-            `__**Informacion del comando**__ \`${cmd.name}\``,
-            `**Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
-            `**Description:** \`${cmd.description.length ? cmd.description : 'No Description'}\``,
-            `**Category:** \`${cmd.category}\``,
-            `**Usage:** \`${cmd.usage}\``
-        ]);
-    } else {
-        let a = this.client.utils.removeDuplicates(this.client.commands.filter((cmd) => cmd.category === name).map((cmd) => `\`${cmd.name}\``));
-        if (!a.length) return message.reply('no se encontro esta categoria o comando')
-        embed.setDescription([`__**Todos los comandos ${name} para ${message.guild.name}**__`]);
-        embed.addField(name, a.join(' | '));
-    }
-}
-message.channel.send(embed);*/
-
 // For each event
 for(const file of eventFiles) {
   const event = require(`./events/${file}`);
@@ -124,8 +94,8 @@ for(const file of eventFiles) {
       }
     });
   } else if(event.name === 'guildCreate') { // When the client joins a server
-    discordClient.on(event.name, () => {
-      event.execute(discordClient);
+    discordClient.on(event.name, guild => {
+      event.execute(guild, mongoClient);
     });
   } else if(event.name === 'messageReactionAdd') { // When a user reacts to a message
     discordClient.on(event.name, async (reaction, user) => {

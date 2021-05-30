@@ -42,7 +42,7 @@ module.exports = {
 	
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-	
+		
 		if(command.guildOnly && message.channel.type == 'dm') {
 			return message.reply(`I can't execute that command inside DMs!`);
 		}

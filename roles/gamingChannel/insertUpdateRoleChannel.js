@@ -5,9 +5,6 @@
  * @param {*} mongoClient 
  */
 module.exports = async function insertUpdateRoleChannel(messageArgs, guildID, mongoClient) {
-	let loc = '[addGamingRoleChannel.gamingRoleManager.insertUpdateRoleChannel]: ';
-	console.log(loc + `Channel ID: ${messageArgs[0]}`);
-
 	// Find by the guild/server ID
 	const query = {
 		id: guildID
@@ -24,8 +21,5 @@ module.exports = async function insertUpdateRoleChannel(messageArgs, guildID, mo
 	};
 	
 	let servers = mongoClient.db('discordbot').collection('servers');
-	const result = await servers.updateOne(query, updateDoc, options);
-	console.log(
-		`${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-	);
+	await servers.updateOne(query, updateDoc, options);
 }

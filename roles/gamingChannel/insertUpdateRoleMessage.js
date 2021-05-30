@@ -21,8 +21,5 @@ module.exports = async function insertUpdateRoleMessage(lastMessage, guildID, mo
 	};
 
 	let servers = mongoClient.db('discordbot').collection('servers');
-	const result = await servers.updateOne(query, updateDoc, options);
-	console.log(
-		`${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-	);
+	await servers.updateOne(query, updateDoc, options);
 }
