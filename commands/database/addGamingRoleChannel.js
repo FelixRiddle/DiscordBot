@@ -10,9 +10,11 @@ module.exports = {
   usage: '<Channel ID>',
   aliases: ['addgamingrolechannel'],
   execute(message, messageArgs, mongoClient, args) {
-
+    
+    // Add the server to the database
     addDiscordServer(message, messageArgs, mongoClient);
 
+    // Now create roles, channels, etc.
     gamingRoleManager(message, messageArgs, mongoClient);
   },
 };

@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const { MongoClient } = require('mongodb');
+const config = require('./config.json');
+const rolesEmoji = require('./roles/rolesEmojis');
 
 const username = encodeURIComponent(process.env.MONGODB_USERNAME);
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
@@ -32,6 +34,7 @@ for(const file of eventFiles) {
   
   if(event.name === 'ready') {
     discordClient.once(event.name, () => {
+      discordClient.user.setUsername('Epic bot');
       event.execute(discordClient);
     });
   } else if(event.name === 'guildCreate') { // When the client joins a server
@@ -71,9 +74,13 @@ for(const file of eventFiles) {
     });
   } else if(event.name === 'message') {
     discordClient.on(event.name, message => {
-      event.execute(event.name, message, discordClient, mongoClient,
-        'foo', // args[0]
-        discordClient.id);
+      if(message.content.startsWith(config.prefix)) {
+        event.execute(event.name, message, discordClient, mongoClient,
+          'foo', // args[0]
+          discordClient.id);
+      } else if(message.content.startsWith(config.reactions)) {
+        rolesEmoji(message);
+      }
     });
   }
 }

@@ -14,7 +14,7 @@ function insertRoleMessage(message, messageArgs) {
 	// Find channel by id
 	console.log(loc + `Channel ID: ${messageArgs[0]}`);
 	let channel = message.guild.channels.cache.get(messageArgs[0]);
-	console.log(loc + channel.name);
+	console.log(loc + `Channel name: ${channel.name}`);
 	
 	// The message exists
 	// Code

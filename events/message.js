@@ -28,7 +28,7 @@ module.exports = {
 		}
 		
 		// If the received message doesn't start with the prefix
-		if(!message.content.startsWith(config.prefix) || message.author.id === args[1]) {
+		if(message.author.id === args[1]) {
 			return;
 		}
 		

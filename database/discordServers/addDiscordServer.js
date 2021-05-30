@@ -1,3 +1,10 @@
+/** Inserts or updates a server/guild in the database
+ * 
+ * @param {*} message 
+ * @param {*} messageArgs 
+ * @param {*} mongoClient 
+ * @param  {...any} args 
+ */
 module.exports = function addDiscordServer(message, messageArgs, mongoClient, ...args) {
 	const guildName = message.member.guild.name;
 	const guildID = message.member.guild.id;
