@@ -31,17 +31,21 @@ const welcomeChannelID = '848189917519544370';
 // For each event
 for(const file of eventFiles) {
   const event = require(`./events/${file}`);
-  
-  if(event.name === 'ready') {
-    discordClient.once(event.name, () => {
-      discordClient.user.setUsername('Epic bot');
-      event.execute(discordClient);
+
+  if(event.name === 'message') {
+    discordClient.on(event.name, message => {
+
+      // Commands
+      if(message.content.startsWith(config.prefix)) {
+        event.execute(event.name, message, discordClient, mongoClient,
+          'foo', // args[0]
+          discordClient.id);
+      } else if(message.content.startsWith(config.reactions)) {
+        rolesEmoji(message);
+      }
+
     });
-  } else if(event.name === 'guildCreate') { // When the client joins a server
-    discordClient.on(event.name, () => {
-      event.execute(discordClient);
-    });
-  }else if(event.name === 'guildMemberAdd') { // When a user joins the server
+  } else if(event.name === 'guildMemberAdd') { // When a user joins the server
     discordClient.on(event.name, member => {
       
       if(welcomeChannelID) {
@@ -72,15 +76,18 @@ for(const file of eventFiles) {
           });
       }
     });
-  } else if(event.name === 'message') {
-    discordClient.on(event.name, message => {
-      if(message.content.startsWith(config.prefix)) {
-        event.execute(event.name, message, discordClient, mongoClient,
-          'foo', // args[0]
-          discordClient.id);
-      } else if(message.content.startsWith(config.reactions)) {
-        rolesEmoji(message);
-      }
+  } else if(event.name === 'guildCreate') { // When the client joins a server
+    discordClient.on(event.name, () => {
+      event.execute(discordClient);
+    });
+  } else if(event.name === 'messageReactionAdd') { // When a user reacts to a message
+    discordClient.on(event.name, async (reaction, user) => {
+      event.execute(reaction, user, mongoClient);
+    });
+  } else if(event.name === 'ready') {
+    discordClient.once(event.name, () => {
+      discordClient.user.setUsername('Epic bot');
+      event.execute(discordClient);
     });
   }
 }

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'guildCreate',
-	execute(discordClient) {
-		return;
+	execute(reaction, user, mongoClient) {
+
 	}
 }
