@@ -8,6 +8,7 @@ module.exports = {
   args: true,
   usage: '<Channel ID>',
   aliases: ['addgamingrolechannel'],
+  cooldown: 5,
   execute(message, messageArgs, mongoClient, args) {
     // Add gaming role manager
     gamingRoleManager(message, messageArgs, mongoClient);

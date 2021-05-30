@@ -1,49 +1,28 @@
-const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('../config.json');
-const path = require('path');
 
 module.exports = {
 	name: 'message',
-	execute(eventName, message, discordClient, mongoClient, ...args) {
-
-		discordClient.commands = new Discord.Collection();
-		discordClient.cooldowns = new Discord.Collection();
-
-		// Commands path
-		let commandsPath = path.resolve('./', 'commands');
-		const commandFolders = fs.readdirSync(commandsPath);
-
+	execute(message, commands, cooldowns, mongoClient, ...args) {
 		// Get args
 		messageArgs = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = messageArgs.shift().toLowerCase();
 
-		// Read all commands from commands folder
-		for(const folder of commandFolders) {
-			const commandFiles = fs.readdirSync(`${commandsPath}/${folder}`).filter(file => file.endsWith('.js'));
-			for(const file of commandFiles) {
-				const setCommand = require(`${commandsPath}/${folder}/${file}`);
-				discordClient.commands.set(setCommand.name, setCommand);
-			}
-		}
-		
-		// If the received message doesn't start with the prefix
-		if(message.author.id === args[1]) {
-			return;
-		}
-		
 		// Check the command exists
-		const command = discordClient.commands.get(commandName)
-			|| discordClient.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-		
+		const command = commands.get(commandName) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
 		if(!command) {
 			message.reply('That command doesn\'t exist!');
 			return;
 		}
-	
+		
+		// If the received hasn't been sended by the bot
+		if(message.author.id === args[1]) {
+			return;
+		}
+
+		
 		// Check commands cooldown
-		const { cooldowns } = discordClient;
-	
 		if(!cooldowns.has(command.name)) {
 			cooldowns.set(command.name, new Discord.Collection());
 		}

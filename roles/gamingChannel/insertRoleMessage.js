@@ -8,8 +8,6 @@ const Discord = require('discord.js');
  * @param {*} mongoClient A MongoDB Client
  */
 module.exports = async function insertRoleMessage(message, messageArgs, mongoClient) {
-	let loc = '[addGamingRoleChannel.gamingRoleManager.insertRoleMessage]: ';
-
 	// Find channel by id
 	let channel = await message.guild.channels.cache.get(messageArgs[0]);
 	

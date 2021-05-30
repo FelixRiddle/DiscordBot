@@ -5,8 +5,6 @@
  * @param {*} mongoClient MongoDB Client
  */
 module.exports = async function insertUpdateRoleMessage(lastMessage, guildID, mongoClient) {
-	let loc = '[addGamingRoleChannel.gamingRoleManager.insertRoleMessage.insertUpdateRoleMessage]: ';
-
 	// Find by the guild/server ID
 	const query = {
 		id: guildID

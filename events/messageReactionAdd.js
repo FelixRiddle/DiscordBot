@@ -1,5 +1,5 @@
 module.exports = {
-	name: 'guildCreate',
+	name: 'messageReactionAdd',
 	execute(reaction, user, mongoClient) {
 
 	}

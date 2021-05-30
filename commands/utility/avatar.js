@@ -4,7 +4,7 @@ module.exports = {
   aliases: ['icon', 'pfp'],
   execute(message, messageArgs) {
     // If the message doesn't contain any users mention
-    if(!msg.mentions.users.size) {
+    if(!message.mentions.users.size) {
       return message.channel.send(`Your avatar <${message.author.displayAvatarURL({ format: 'png',
         dynamic: true})}>`);
     }
