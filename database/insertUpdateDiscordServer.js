@@ -4,7 +4,6 @@
  * @param {*} mongoClient A MongoDB instance
  */
 module.exports = async function insertUpdateDiscordServer(guild, mongoClient) {
-	let loc = '[insertUpdateDiscordServer]: '
 	const guildName = guild.name;
 	const guildID = guild.id;
 	const guildTotalMembers = guild.memberCount;
@@ -28,12 +27,8 @@ module.exports = async function insertUpdateDiscordServer(guild, mongoClient) {
 			},
 		};
 
-		const result = await discordServers.updateOne(filter, updateDoc, options);
-    console.log(
-      `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-    );
+		await discordServers.updateOne(filter, updateDoc, options);
 	} catch(err) {
-		console.log(loc + 'There was an error when trying to update or insert one document: ');
 		console.log(err);
 	}
 }

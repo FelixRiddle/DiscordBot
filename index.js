@@ -48,7 +48,6 @@ for(const file of eventFiles) {
 
   if(event.name === 'message') {
     discordClient.on(event.name, message => {
-
       // Commands
       if(message.content.startsWith(config.prefix)) {
         event.execute(message, discordClient.commands, discordClient.cooldowns, mongoClient,
@@ -58,7 +57,6 @@ for(const file of eventFiles) {
       } else if(message.content.startsWith(config.reactions)) {
         rolesEmoji(message);
       }
-
     });
   } else if(event.name === 'guildMemberAdd') { // When a user joins the server
     discordClient.on(event.name, member => {
@@ -78,7 +76,7 @@ for(const file of eventFiles) {
     });
   } else if(event.name === 'ready') {
     discordClient.once(event.name, () => {
-      discordClient.user.setUsername('Epic bot');
+      discordClient.user.setUsername(config.botName);
       event.execute(discordClient);
     });
   }

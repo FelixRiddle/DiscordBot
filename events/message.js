@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
+const verifyCommandChannel = require('../database/verifyCommandChannel');
 
 module.exports = {
 	name: 'message',
@@ -7,6 +8,9 @@ module.exports = {
 		// Get args
 		messageArgs = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = messageArgs.shift().toLowerCase();
+
+		// Check if there are command channels in the database and if this command was sent in one of them
+		verifyCommandChannel(message, mongoClient);
 
 		// Check the command exists
 		const command = commands.get(commandName) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -16,11 +20,10 @@ module.exports = {
 			return;
 		}
 		
-		// If the received hasn't been sended by the bot
+		// If the received command wasn't send by the bot
 		if(message.author.id === args[1]) {
 			return;
 		}
-
 		
 		// Check commands cooldown
 		if(!cooldowns.has(command.name)) {
@@ -55,6 +58,7 @@ module.exports = {
 			}
 		}
 		
+		// Check if the command requires argument and they didn't provide any
 		if(command.args && !messageArgs.length) {
 			return message.channel.send(`You didn't provide any arguments, ${message.author}`);
 		}

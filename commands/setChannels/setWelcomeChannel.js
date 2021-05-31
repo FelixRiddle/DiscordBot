@@ -11,6 +11,7 @@ module.exports = {
   async execute(message, messageArgs, mongoClient) {
 		insertUpdateDiscordServer(message.member.guild, mongoClient);
 
+		// TODO: Find the channel by name
     let channelID = messageArgs[0];
 
     if(typeof(channelID) !== "string") {
