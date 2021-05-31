@@ -1,5 +1,6 @@
 const insertUpdateRoleMessage = require('./insertUpdateRoleMessage');
 const Discord = require('discord.js');
+const config = require('../../config.json');
 
 /**	Inserts a role selector message in the text channel
  * 
@@ -23,12 +24,9 @@ module.exports = async function insertRoleMessage(message, messageArgs, mongoCli
 
 			data.push(`React to get the role.\n`);
 			data.push(`Games list:`);
-			data.push(`〖🧱〗 Fortnite`);
-			data.push(`〖🤺〗 League of Legends`);
-			data.push(`〖🌎〗 Minecraft`);
-			data.push(`〖⛏️〗 Terraria`);
-			data.push(`〖💥〗 CS: GO`);
-			data.push(`〖🏹〗 Valorant`);
+			for(let i = 0; i < config.gamingRoles.length; i++) {
+				data.push(`〖${config.gamingRoles[i].reaction}〗 ${config.gamingRoles[i].gameName}`);
+			}
 			
 			// Send the embed
 			await channel.send(new Discord.MessageEmbed()
@@ -40,17 +38,13 @@ module.exports = async function insertRoleMessage(message, messageArgs, mongoCli
 		}
 
 		// Add the reactions
-		await lastMessage.react('🧱')
-			.then(() => lastMessage.react('🤺'))
-			.then(() => lastMessage.react('🌎'))
-			.then(() => lastMessage.react('⛏️'))
-			.then(() => lastMessage.react('💥'))
-			.then(() => lastMessage.react('🏹'))
-			.catch(error => console.error(loc + 'One of the emojis failed to react:', error));
+		for(let i = 0; i < config.gamingRoles.length; i++) {
+			await lastMessage.react(config.gamingRoles[i].reaction)
+				.catch(error => console.error(loc + 'One of the emojis failed to react:', error));
+		}
 		
 		// Insert or update the role message in the database
 		await insertUpdateRoleMessage(lastMessage, lastMessage.guild.id, mongoClient);
-
 	} catch(err) {
 		console.log(`${loc}There was an error when trying to retrieve the last message:\n`);
 		console.error(err);

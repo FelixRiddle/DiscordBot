@@ -1,4 +1,30 @@
 {
 	"prefix": "$",
-	"reactions": "!$$"
+	"reactions": "!$$",
+	"gamingRoles": [
+		{
+			"reaction": "🧱",
+			"gameName": "Fortnite"
+		},
+		{
+			"reaction": "🤺",
+			"gameName": "League of Legends"
+		},
+		{
+			"reaction": "🌎",
+			"gameName": "Minecraft"
+		},
+		{
+			"reaction": "⛏️",
+			"gameName": "Terraria"
+		},
+		{
+			"reaction": "💥",
+			"gameName": "CS: GO"
+		},
+		{
+			"reaction": "🏹",
+			"gameName": "Valorant"
+		}
+	]
 }
