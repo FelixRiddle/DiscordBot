@@ -1,9 +1,9 @@
 const config = require('../../config.json');
 
-/**
+/** Creates roles for games
  * 
- * @param {Message} message 
- * @param {MongoClient} mongoClient 
+ * @param {Message} message The command message 
+ * @param {MongoClient} mongoClient MongoDB Client
  */
 module.exports = async function createGameRoles(message, mongoClient) {
 	let roles = [];
@@ -47,5 +47,5 @@ module.exports = async function createGameRoles(message, mongoClient) {
 		await servers.updateOne(query, update, options);
 	}
 
-	console.log(`Roles inserted.`);
+	message.reply(`${config.gamingRoles.length} game roles inserted successfully.`);
 }
