@@ -1,6 +1,7 @@
 const insertUpdateRoleChannel = require('./insertUpdateRoleChannel');
 const insertRoleMessage = require('./insertRoleMessage');
 const insertUpdateDiscordServer = require('../../database/insertUpdateDiscordServer')
+const createGameRoles = require('./createGameRoles');
 
 /** Adds a gaming role manager channel and message role selector
  * 
@@ -17,4 +18,7 @@ module.exports = function gamingRoleManager(message, messageArgs, mongoClient) {
 
 	// Create the role message or get the id
 	insertRoleMessage(message, messageArgs, mongoClient);
+
+	// Create the roles
+	createGameRoles(message, mongoClient);
 }

@@ -4,16 +4,16 @@ const config = require('../../config.json');
 
 /**	Inserts a role selector message in the text channel
  * 
- * @param {*} message The command message
+ * @param {Message} message The command message
  * @param {*} messageArgs An array with the id of the textChannel
- * @param {*} mongoClient A MongoDB Client
+ * @param {MongoClient} mongoClient A MongoDB Client
  */
 module.exports = async function insertRoleMessage(message, messageArgs, mongoClient) {
 	// Find channel by id
 	let channel = await message.guild.channels.cache.get(messageArgs[0]);
 	
 	// Retrieve the last message of the channel if it exists
-	let lastMessage
+	let lastMessage;
 	try {
 		lastMessage = channel.lastMessage;
 
@@ -29,12 +29,10 @@ module.exports = async function insertRoleMessage(message, messageArgs, mongoCli
 			}
 			
 			// Send the embed
-			await channel.send(new Discord.MessageEmbed()
+			lastMessage = await channel.send(new Discord.MessageEmbed()
 				.setColor('#FF0000')
 				.setTitle(' -- Gaming Roles -- ')
 				.setDescription(data));
-			
-			lastMessage = await channel.lastMessage;
 		}
 
 		// Add the reactions

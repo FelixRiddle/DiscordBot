@@ -70,8 +70,13 @@ for(const file of eventFiles) {
     discordClient.on(event.name, guild => {
       event.execute(guild, mongoClient);
     });
+  } else if(event.name === 'messageUpdate') {
+    discordClient.on(event.name, async (oldMessage, newMessage) => {
+      console.log(`A message was updated!`);
+    })
   } else if(event.name === 'messageReactionAdd') { // When a user reacts to a message
     discordClient.on(event.name, async (reaction, user) => {
+      console.log(`Reacted`);
       event.execute(reaction, user, mongoClient);
     });
   } else if(event.name === 'ready') {
