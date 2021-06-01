@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
-const verifyCommandChannel = require('../database/verifyCommandChannel');
+const checkCommandChannels = require('../database/commandChannels/checkCommandChannels');
 
 module.exports = {
 	name: 'message',
@@ -10,7 +10,7 @@ module.exports = {
 		const commandName = messageArgs.shift().toLowerCase();
 
 		// Check if there are command channels in the database and if this command was sent in one of them
-		verifyCommandChannel(message, mongoClient);
+		checkCommandChannels(message, mongoClient);
 
 		// Check the command exists
 		const command = commands.get(commandName) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));

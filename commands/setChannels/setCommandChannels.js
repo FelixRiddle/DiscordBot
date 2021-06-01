@@ -34,27 +34,6 @@ module.exports = {
 
 				// Check if the channel already exists in the database
 				for(let j = 0; j < doc.commandChannelID.length; j++) {
-					// Only once
-					if(j === doc.commandChannelID.length - 1) {
-						// Create a filter
-						const filter = { id: guildID };
-						
-						// Insert or update
-						const options = { upsert: true };
-
-						// Rapidly fix a random bug
-						const commandChannelArgs = doc.commandChannelID[i].toString();
-
-						// Sets
-						const updateDoc = {
-							$push: {
-								commandChannelID: [ commandChannelArgs ]
-							},
-						};
-
-						await serverCollection.updateOne(filter, updateDoc, options);
-					}
-
 					if(doc.commandChannelID[i] === messageArgs[j]) {
 						message.reply(`The channel ${messageArgs[j]} already exists in the database.`);
 						continue checki;
@@ -83,7 +62,7 @@ module.exports = {
 						// Note: Without to string, it will insert a new array inside the array.
 						const updateDoc = {
 							$push: {
-								commandChannelID: [ messageArgs[i] ],
+								commandChannelID: messageArgs[i],
 							},
 						};
 

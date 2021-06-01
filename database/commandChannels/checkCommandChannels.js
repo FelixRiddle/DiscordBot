@@ -3,8 +3,9 @@
  * @param {*} message 
  * @param {*} mongoClient 
  */
-module.exports = async function verifyCommandChannel(message, mongoClient) {
-	// First, verify if the server/guild has command channels in the database
+module.exports = async function checkCommandChannels(message, mongoClient) {
+	// TODO
+	/* Check if the message was send in a command channel */
 	try {
 		let collection = mongoClient.db('discordbot').collection('servers');
 		let amountOfCommandChannels;
