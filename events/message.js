@@ -4,13 +4,16 @@ const checkCommandChannels = require('../database/commandChannels/checkCommandCh
 
 module.exports = {
 	name: 'message',
-	execute(message, commands, cooldowns, mongoClient, ...args) {
+	async execute(message, commands, cooldowns, mongoClient, ...args) {
 		// Get args
 		messageArgs = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = messageArgs.shift().toLowerCase();
 
 		// Check if there are command channels in the database and if this command was sent in one of them
-		checkCommandChannels(message, mongoClient);
+		let result = await checkCommandChannels(message, mongoClient);
+		if(!result) {
+			return;
+		}
 
 		// Check the command exists
 		const command = commands.get(commandName) || commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));

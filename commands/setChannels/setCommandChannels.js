@@ -29,8 +29,6 @@ module.exports = {
 		cursor.forEach(async doc => {
 			// Analize each argument
 			checki: for(let i = 0; i < messageArgs.length; i++) {
-				console.log(`ID del canal: ${messageArgs[i]}`);
-				console.log(`Iteracion: ${i}`);
 
 				// Check if the channel already exists in the database
 				for(let j = 0; j < doc.commandChannelID.length; j++) {
@@ -38,8 +36,6 @@ module.exports = {
 						message.reply(`The channel ${messageArgs[j]} already exists in the database.`);
 						continue checki;
 					}
-					console.log(`	ID del canal: ${doc.commandChannelID[j]}`);
-					console.log(`	Iteracion: ${j}`);
 				}
 
 				// Check if is in the guild/server

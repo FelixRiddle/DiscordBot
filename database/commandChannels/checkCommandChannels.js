@@ -4,13 +4,30 @@
  * @param {*} mongoClient 
  */
 module.exports = async function checkCommandChannels(message, mongoClient) {
-	// TODO
-	/* Check if the message was send in a command channel */
-	try {
-		let collection = mongoClient.db('discordbot').collection('servers');
-		let amountOfCommandChannels;
-		
-	} catch(err) {
 
+	let collection = mongoClient.db('discordbot').collection('servers');
+	let cursor = await collection.find( { id: message.member.guild.id } );
+	let result;
+
+	try {
+		await cursor.forEach(doc => {
+			// Iterate through every command channel id in the database
+			for(let i = 0; i < doc.commandChannelID.length; i++) {
+				// This is a command channel
+				if(parseInt(message.channel.id) == parseInt(doc.commandChannelID[i])) {
+					result = true;
+					return;
+				}
+			}
+
+			// Return the result outside the foreach
+			result = false;
+		});
+		cursor.close();
+
+		return result;
+	} catch(err) {
+		console.error(err);
+		return false;
 	}
 }
