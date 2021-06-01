@@ -8,7 +8,6 @@ module.exports = async function verifyCommandChannel(message, mongoClient) {
 	try {
 		let collection = mongoClient.db('discordbot').collection('servers');
 		let amountOfCommandChannels;
-
 		
 	} catch(err) {
 

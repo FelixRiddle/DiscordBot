@@ -2,7 +2,7 @@
 	"prefix": "$",
 	"reactions": "!$$",
 	"botName": "Epic bot",
-	"maxCommandChannels": 3,
+	"maxCommandChannels": 10,
 	"gamingRoles": [
 		{
 			"reaction": "🧱",
