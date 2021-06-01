@@ -9,10 +9,13 @@ module.exports = {
 		messageArgs = message.content.slice(config.prefix.length).trim().split(/ +/);
 		const commandName = messageArgs.shift().toLowerCase();
 
-		// Check if there are command channels in the database and if this command was sent in one of them
-		let result = await checkCommandChannels(message, mongoClient);
-		if(!result) {
-			return;
+		// Check if it was sent in a guild/server
+		if(message.guild !== null) {
+			// Check if there are command channels in the database and if this command was sent in one of them
+			let result = await checkCommandChannels(message, mongoClient);
+			if(!result) {
+				return;
+			}
 		}
 
 		// Check the command exists

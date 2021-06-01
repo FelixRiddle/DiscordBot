@@ -17,14 +17,15 @@ module.exports = {
 		if(!messageArgs.length) {
 			// Create an array with all the commands and some info
 			data.push(commands.map(command => ' **$' + command.name + '**: ' + command.description).join('\n'));
-			data.push(`\nYou can send \`${config.prefix} help [command name]\` to get info on a specific command!`);
+			data.push(`\nYou can send \`${config.prefix}help [command name]\` to get info on a specific command!`);
 			
 				// inside a command, event listener, etc.
-			return message.channel.send(new Discord.MessageEmbed()
+			return message.member.send(new Discord.MessageEmbed()
 				.setColor('#FF0000')
 				.setTitle('Here\'s a list of all my commands:')
 				.setDescription(data))
 				.catch(err => {
+					console.log(err);
 					message.reply(`There was an error when trying to retrieve the commands.`);
 				});
 		} else {
