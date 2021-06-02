@@ -15,7 +15,7 @@ module.exports = async function createGameRoles(message, mongoClient) {
 			{
 				data: {
 					name: config.gamingRoles[i].gameName,
-					color: 'DEFAULT',
+					color: '#e84a15',
 					/*
 					permissions: {
 						SEND_MESSAGES: true,
