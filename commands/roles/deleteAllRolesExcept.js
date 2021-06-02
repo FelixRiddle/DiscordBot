@@ -7,13 +7,13 @@ module.exports = {
   aliases: ['deleteallrolesexcept'],
   usage: '<Role ID> {<Role ID>}...',
   cooldown: 5,
-  execute(message, messageArgs, mongoClient) {
+  async execute(message, messageArgs, mongoClient) {
     let amount = 0;
 
     // If the user provided arguments
     if(messageArgs.length == null) {
       // If not, delete every role
-      message.guild.roles.cache.forEach(roles => {
+      await message.guild.roles.cache.forEach(roles => {
         amount++;
         roles.delete()
           .then(deleted => console.log(`Deleted role ${deleted.name}`))
@@ -23,7 +23,8 @@ module.exports = {
       return;
     }
 
-    message.guild.roles.cache.forEach(roles => {
+    message.reply(`Deleting roles, please wait, this operation may take minutes...`);
+    await message.guild.roles.cache.forEach(roles => {
         let result = true;
         for(let i = 0; i < messageArgs.length; i++) {
           // If the role is an exception, skip to the next iteration
@@ -38,8 +39,9 @@ module.exports = {
             .catch(console.error);
           amount++;
         }
-    });
+    })
 
-    message.reply(`Roles deleted: ${amount}\nRoles skipped: ${messageArgs.length}`);
+    await message.reply(`Roles deleted: ${amount}\nRoles skipped: ${messageArgs.length}`);
+    console.log(`Done`);
 	},
 }

@@ -47,5 +47,5 @@ module.exports = async function createGameRoles(message, mongoClient) {
 		await servers.updateOne(query, update, options);
 	}
 
-	message.reply(`${config.gamingRoles.length} game roles inserted successfully.`);
+	message.reply(`${config.gamingRoles.length} game roles created successfully.`);
 }

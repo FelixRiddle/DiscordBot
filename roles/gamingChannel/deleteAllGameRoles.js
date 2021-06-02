@@ -9,13 +9,13 @@ module.exports = async function deleteAllGameRoles(message, mongoClient) {
 	let amount;
 
 	await cursor.forEach(async doc => {
-		if(doc.gameRoles !== null) {
+		if(doc.gameRoles !== undefined) {
 			amount = doc.gameRoles.length;
 			const query = { id: message.guild.id };
 
 			// Delete al game roles in the server
 			for(let i = 0; i < doc.gameRoles.length; i++) {
-				await message.guild.roles.cache.get(doc.gameRoles[i].id).delete;
+				await message.guild.roles.cache.get(doc.gameRoles[i].id).delete();
 			}
 
 			// Delete all game roles from the database
