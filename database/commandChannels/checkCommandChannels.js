@@ -11,17 +11,25 @@ module.exports = async function checkCommandChannels(message, mongoClient) {
 
 	try {
 		await cursor.forEach(doc => {
-			// Iterate through every command channel id in the database
-			for(let i = 0; i < doc.commandChannelID.length; i++) {
-				// This is a command channel
-				if(parseInt(message.channel.id) == parseInt(doc.commandChannelID[i])) {
-					result = true;
-					return;
+			// Check if the server has command channels, if not, return
+			if(doc.commandChannelID === undefined) {
+				// If the server doesn't have command channels, then they can run commands
+				// everywhere
+				result = true;
+				return;
+			} else {
+				// Iterate through every command channel id in the database
+				for(let i = 0; i < doc.commandChannelID.length; i++) {
+					// This is a command channel
+					if(parseInt(message.channel.id) == parseInt(doc.commandChannelID[i])) {
+						result = true;
+						return;
+					}
 				}
-			}
 
-			// Return the result outside the foreach
-			result = false;
+				// Return the result outside the foreach
+				result = false;
+			}
 		});
 		cursor.close();
 
