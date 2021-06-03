@@ -1,7 +1,8 @@
 module.exports = {
   name: 'prune',
-  description: 'Prune command',
-  cooldown: 1,
+  description: 'Deletes messages in the current channel',
+  cooldown: 20,
+  usage: '<Amount>',
   execute(message, messageArgs) {
     const amount = parseInt(messageArgs[0]) + 1;
 
