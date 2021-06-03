@@ -52,7 +52,7 @@ for(const file of eventFiles) {
       if(message.content.startsWith(config.prefix)) {
         event.execute(message, discordClient.commands, discordClient.cooldowns, mongoClient,
           'foo', // args[0]
-          discordClient.id,
+          discordClient.user.id,
           discordClient);
       } else if(message.content.startsWith(config.reactions)) {
         rolesEmoji(message);
@@ -76,10 +76,9 @@ for(const file of eventFiles) {
     })
   } else if(event.name === 'messageReactionAdd') { // When a user reacts to a message
     discordClient.on(event.name, async (reaction, user) => {
-      console.log(`Reacted`);
       event.execute(reaction, user, mongoClient,
-        discordClient.id // args[0]
-        );
+        discordClient // args[0]
+      );
     });
   } else if(event.name === 'ready') {
     discordClient.once(event.name, () => {

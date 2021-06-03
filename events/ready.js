@@ -17,7 +17,7 @@ module.exports = {
 				}
 
 				// Delete older messages
-				channel.bulkDelete(10, true).catch(err => {
+				channel.bulkDelete(2, true).catch(err => {
 					console.error(err);
 					message.channel.send(`There was an error trying to prune messages in this channel!`);
 				});

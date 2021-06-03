@@ -4,11 +4,21 @@ const config = require('../../config.json');
  * @param {MessageReaction} reaction Message reaction 
  * @param {MongoClient} mongoClient MongoDB Client
  */
-module.exports = function checkGamesReaction(reaction, mongoClient) {
+module.exports = function checkGamesReaction(reaction, user, mongoClient) {
 	for(let i = 0; i < config.gamingRoles.length; i++) {
 		// Is the reaction emoji one on the gaming roles config?
-		if(reaction.emoji === config.gamingRoles[i].reaction) {
-			// TODO: Add the role
+		if(reaction.emoji.name == config.gamingRoles[i].reaction) {
+
+			let role = reaction.message.guild.roles.cache.find(role => {
+				if(role.name == config.gamingRoles[i].gameName) {
+					return role;
+				}
+			});
+
+			let member = reaction.message.guild.members.cache.get(user.id);
+			member.roles.add(role);
+
+			return;
 		}
-	}
+	}//*/
 }
