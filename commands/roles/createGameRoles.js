@@ -1,6 +1,6 @@
 const createGameRoles = require('../../roles/gamingChannel/createGameRoles');
 const createGameChannels = require('../../roles/gamingChannel/createGameChannels');
-const config = require('../../config.json');
+const insertUpdateDiscordServer = require('../../database/insertUpdateDiscordServer')
 
 module.exports = {
   name: 'createGameRoles',
@@ -10,6 +10,9 @@ module.exports = {
   aliases: ['creategameroles'],
   cooldown: 3000,
   async execute(message, messageArgs, mongoClient) {
+
+    // Check if the server exists or create it
+    await insertUpdateDiscordServer(message.guild, mongoClient);
 
     // Verify if the role already exist
     let servers = mongoClient.db('discordbot').collection('servers');

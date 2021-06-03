@@ -77,12 +77,14 @@ for(const file of eventFiles) {
   } else if(event.name === 'messageReactionAdd') { // When a user reacts to a message
     discordClient.on(event.name, async (reaction, user) => {
       console.log(`Reacted`);
-      event.execute(reaction, user, mongoClient);
+      event.execute(reaction, user, mongoClient,
+        discordClient.id // args[0]
+        );
     });
   } else if(event.name === 'ready') {
     discordClient.once(event.name, () => {
       discordClient.user.setUsername(config.botName);
-      event.execute(discordClient);
+      event.execute(discordClient, mongoClient);
     });
   }
 }

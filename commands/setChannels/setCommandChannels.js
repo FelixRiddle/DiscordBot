@@ -11,7 +11,8 @@ module.exports = {
   aliases: ['setcommandchannel'],
   cooldown: 5,
   async execute(message, messageArgs, mongoClient) {
-		insertUpdateDiscordServer(message.member.guild, mongoClient);
+		// Insert the server
+		await insertUpdateDiscordServer(message.guild, mongoClient);
 
 		// Select a collection and a database
 		let serverCollection = mongoClient.db('discordbot').collection('servers');

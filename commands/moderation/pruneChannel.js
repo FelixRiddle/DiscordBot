@@ -3,7 +3,7 @@ module.exports = {
   description: 'Prune command',
   cooldown: 20,
   usage: '<Amount> {<Channel ID> or <Channel Name>}...',
-  aliases: ['deltemessages', 'prunechannel'],
+  aliases: ['deletemessages', 'prunechannel'],
   execute(message, messageArgs) {
     const amount = parseInt(messageArgs[0]) + 1;
 

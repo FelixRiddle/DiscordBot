@@ -6,35 +6,41 @@ const config = require('../../config.json');
  * @param {MongoClient} mongoClient MongoDB Client
  */
 module.exports = async function createGameRoles(message, mongoClient) {
-	let roles = [];
-	servers = mongoClient.db('discordbot').collection('servers');
+	let servers = mongoClient.db('discordbot').collection('servers');
+	let cursor = servers.find(message.guild.id);
 
 	try {
-		for(let i = 0; i < config.gamingRoles.length; i++) {
+		cursor.forEach(async doc => {
+			if(doc.gameRoles !== null) {
+				return;
+			}
 
-			// Create the role with the name of the game
-			let role = await message.guild.roles.create(
-				{
-					data: {
-						name: config.gamingRoles[i].gameName,
-						color: '#e84a15',
-						//mentionable: true,
-					},
-					reason: 'Roles for gamers',
-				});
+			for(let i = 0; i < config.gamingRoles.length; i++) {
 				
-			const query = { id: message.guild.id };
-			const update = {
-				$push: {
-					gameRoles: {
-						name: role.name,
-						id: role.id,
+				// Create the role with the name of the game
+				let role = await message.guild.roles.create(
+					{
+						data: {
+							name: config.gamingRoles[i].gameName,
+							color: '#e84a15',
+							//mentionable: true,
+						},
+						reason: 'Roles for gamers',
+					});
+					
+				const query = { id: message.guild.id };
+				const update = {
+					$push: {
+						gameRoles: {
+							name: role.name,
+							id: role.id,
+						},
 					},
-				},
-			};
-			const options = { upsert: true };
-			servers.updateOne(query, update, options);
-		}
+				};
+				const options = { upsert: true };
+				servers.updateOne(query, update, options);
+			}
+		});
 	} catch(err) {
 		console.log(err);
 	}

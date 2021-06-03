@@ -6,7 +6,7 @@ MongoDB Node.js Driver: https://docs.mongodb.com/drivers/node/quick-start/
 # Start
 Start the bot with the following commands:
 Note: You need node.js and npm in your computer.
-## Installing the packages:
+Installing packages:
 ```batch
 npm i --save
 ```
@@ -16,7 +16,7 @@ DISCORD_TOKEN=Insert_your_discord_token_here
 MONGODB_USERNAME=Insert_your_MongoDB_username_here
 MONGODB_PASSWORD=Insert_your_MongoDB_password_here
 
-## Initializing the bot:
+Initializing bot:
 ```batch
 node index.js
 ```

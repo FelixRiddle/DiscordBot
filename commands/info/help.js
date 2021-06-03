@@ -49,11 +49,11 @@ module.exports = {
 				data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
 			}
 
-			data.push(`**Cooldown:** ${command.cooldown || 0} second(s)`);
+			data.push(`**Cooldown:** ${(command.cooldown / 10) || 0} second(s)`);
 
 			message.channel.send(new Discord.MessageEmbed()
 				.setColor('#FF0000')
-				.setTitle('Here\'s a list of all my commands:')
+				.setTitle(`${command.name}:`)
 				.setDescription(data));
 		}
 	},

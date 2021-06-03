@@ -29,18 +29,15 @@ module.exports = async function createGameChannels(message, mongoClient) {
 			],
 		}).then(async channel => {
 
-			let tempChannel = {
+			game.push({
 				textChannel: {
 					name: channel.name,
 					id: channel.id,
 				},
-			};
-
-			// Push the text channel
-			game.push(tempChannel);
+			});
 
 			// For debug, auto delete channel
-			// setTimeout(() => { channel.delete(); }, time);
+			//setTimeout(() => { channel.delete(); }, time);
 
 			await guild.channels.create(config.gamingRoles[i].gameName, {
 				type: 'category',
@@ -64,7 +61,7 @@ module.exports = async function createGameChannels(message, mongoClient) {
 					},
 				});
 
-				// setTimeout(() => { category.delete(); }, time);
+				//setTimeout(() => { category.delete(); }, time);
 
 				for(let i = 0; i < 3; i++) {
 					// Create a new channel with permission overwrites
@@ -90,7 +87,7 @@ module.exports = async function createGameChannels(message, mongoClient) {
 							},
 						});
 
-						// setTimeout(() => { voice.delete(); }, time);
+						//setTimeout(() => { voice.delete(); }, time);
 					});
 				}
 
@@ -98,7 +95,7 @@ module.exports = async function createGameChannels(message, mongoClient) {
 		});
 		gameChannels.push(game);
 	}
-
+	
 	const update = {
 		$push: {
 			gameRolesAndChannels: {
