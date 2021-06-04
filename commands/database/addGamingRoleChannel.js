@@ -1,5 +1,6 @@
-const path = require('path');
-const gamingRoleManager = require(path.resolve('./', 'roles', 'gamingChannel', 'gamingRoleManager'));
+const insertUpdateDiscordServer = require('../../database/insertUpdateDiscordServer');
+const insertUpdateRoleChannel = require('../../roles/gamingChannel/insertUpdateRoleChannel');
+const insertRoleMessage = require('../../roles/gamingChannel/insertRoleMessage');
 
 module.exports = {
   name: 'addGamingRoleChannel',
@@ -10,7 +11,14 @@ module.exports = {
   aliases: ['addgamingrolechannel'],
   cooldown: 5,
   execute(message, messageArgs, mongoClient, args) {
-    // Add gaming role manager
-    gamingRoleManager(message, messageArgs, mongoClient);
+
+    // First insert or update server
+    insertUpdateDiscordServer(message.guild, mongoClient);
+
+    // Insert or update the role picker channel
+    insertUpdateRoleChannel(messageArgs, message.guild.id, mongoClient);
+
+    // Insert the role picker message
+    insertRoleMessage(message, messageArgs, mongoClient);
   },
 };

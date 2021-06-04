@@ -9,16 +9,16 @@ const createGameRoles = require('./createGameRoles');
  * @param {*} messageArgs Message arguments containing the TextChannel ID
  * @param {*} mongoClient A MongoDB Client
  */
-module.exports = function gamingRoleManager(message, messageArgs, mongoClient) {
+module.exports = async function gamingRoleManager(message, messageArgs, mongoClient) {
 	// Insert or update the server in the database
-	insertUpdateDiscordServer(message.member.guild, mongoClient);
-
-	// Insert or update the role channel in the database
-	insertUpdateRoleChannel(messageArgs, message.guild.id, mongoClient);
-
-	// Create the role message or get the id
-	insertRoleMessage(message, messageArgs, mongoClient);
+	await insertUpdateDiscordServer(message.member.guild, mongoClient);
 
 	// Create the roles
-	createGameRoles(message, mongoClient);
+	await createGameRoles(message, mongoClient);
+
+	// Insert or update the role channel in the database
+	await insertUpdateRoleChannel(messageArgs, message.guild.id, mongoClient);
+
+	// Create the role message or get the id
+	await insertRoleMessage(message, messageArgs, mongoClient);
 }

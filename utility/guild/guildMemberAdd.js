@@ -63,19 +63,27 @@ module.exports = async function guildMemberAdd(member, mongoClient) {
 			context.fillStyle = 'white';
 			context.fillText(name, canvas.width / 2.5, canvas.height / 1.8);
 
+			// Wait for Canvas to load the image
+			const avatar = await Canvas.loadImage(member.user.displayAvatarURL( { format: 'jpg' } ));
+
+			/*
 			// Pick up the pen
 			context.beginPath();
 			// Start the arc to form a circle
-			context.arc(125, 125, 100, 0, Math.PI * 2, true);
+			context.arc((canvas.width / 1.5) - (avatar.width / 2),
+				(canvas.height / 1.5) - (avatar.height / 2),
+				100,
+				0 * Math.PI,
+				Math.PI * 2,
+				false);
 			// Put the pen down
 			context.closePath();
 			// Clip off the region you drew on
-			context.clip();
-
-			// Wait for Canvas to load the image
-			const avatar = await Canvas.loadImage(member.user.displayAvatarURL( { format: 'jpg' } ));
+			context.clip();//*/
+			
 			// Move the image downwards vertically and constrain its height to 200, so that it's square
-			context.drawImage(avatar, 25, 25, 200, 200);
+			context.drawImage(avatar, (canvas.width / 2) - (avatar.width),
+				(canvas.height / 2) - (avatar.height), 200, 200);//*/
 
 			// Use the helpful Attachment class structure to process the file for you
 			const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.jpg');

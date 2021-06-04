@@ -1,6 +1,6 @@
 /** Inserts or updates a server/guild in the database
  * 
- * @param {*} message A message from the server
+ * @param {*} guild Guild where the message was sent
  * @param {*} mongoClient A MongoDB instance
  */
 module.exports = async function insertUpdateDiscordServer(guild, mongoClient) {
