@@ -50,6 +50,10 @@ for(const file of eventFiles) {
     discordClient.on(event.name, message => {
       // Commands
       if(message.content.startsWith(config.prefix)) {
+        if(message.content == '$join') {
+          discordClient.emit('guildMemberAdd', message.member);
+        }
+
         event.execute(message, discordClient.commands, discordClient.cooldowns, mongoClient,
           'foo', // args[0]
           discordClient.user.id,
