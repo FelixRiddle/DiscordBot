@@ -1,4 +1,7 @@
-const config = require('../../config.json');
+const config = require('../../../config.json');
+const createGameTextChannel = require('./createGameTextChannel');
+const createGameCategory = require('./createGameCategory');
+const createGameVoiceChannel = require('./createGameVoiceChannel');
 
 module.exports = async function createGameChannels(message, mongoClient) {
 	let servers = mongoClient.db('discordbot').collection('servers');
@@ -9,8 +12,48 @@ module.exports = async function createGameChannels(message, mongoClient) {
 	let time = 15000;
 	let gameChannels = [];
 
+	let cursor = await servers.find(query);
+
+	await cursor.forEach(async doc => {
+		for(let i = 0; i < doc.gameRoles.length; i++) {
+			// Get the roles by name
+			let role = await guild.roles.cache.find(role => role.name == doc.gameRoles[i].roleName);
+
+			await createGameCategory(role, guild, doc.gameRoles[i].roleName);
+
+			await guild.channels.cache.find(channels => {
+				if(channels.name === doc.gameRoles[i].roleName &&
+						channels.type == 'category') {
+					let category = channels;
+
+					// Create text channels
+					for(let j = 0; j < doc.gameRoles[i].textChannels; j++) {
+						createGameTextChannel(role,
+							guild,
+							doc.gameRoles[i].roleName + " " + (j + 1),
+							category);
+						// For testing purposes
+						//setTimeout(() => { channel.delete(); }, time);
+					}
+		
+					// Create voice channels
+					for(let j = 0; j < doc.gameRoles[i].voiceChannels; j++) {
+						createGameVoiceChannel(
+							role,
+							guild,
+							`${doc.gameRoles[i].roleName} voice ${j + 1}`,
+							category);
+						// For testing purposes
+						//setTimeout(() => { channel.delete(); }, time);
+					}
+				}
+			});
+		}
+	});
+
 	// Create with category
 	// Create a new channel with permission overwrites
+	/*
 	for(let i = 0; i < config.gamingRoles.length; i++) {
 		let game = [];
 		let roles = await guild.roles.cache.find(role => role.name == config.gamingRoles[i].gameName);
@@ -28,7 +71,6 @@ module.exports = async function createGameChannels(message, mongoClient) {
 				}
 			],
 		}).then(async channel => {
-
 			game.push({
 				textChannel: {
 					name: channel.name,
@@ -37,7 +79,6 @@ module.exports = async function createGameChannels(message, mongoClient) {
 			});
 
 			// For debug, auto delete channel
-			//setTimeout(() => { channel.delete(); }, time);
 
 			await guild.channels.create(config.gamingRoles[i].gameName, {
 				type: 'category',
@@ -93,15 +134,5 @@ module.exports = async function createGameChannels(message, mongoClient) {
 
 			});
 		});
-		gameChannels.push(game);
-	}
-	
-	const update = {
-		$push: {
-			gameRolesAndChannels: {
-				gameChannels,
-			},
-		},
-	};
-	servers.updateOne(query, update, options);
+	}*/
 }

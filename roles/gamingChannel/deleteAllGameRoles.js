@@ -17,8 +17,13 @@ module.exports = async function deleteAllGameRoles(message, mongoClient) {
 
 			// Delete al game roles in the server
 			for(let i = 0; i < doc.gameRoles.length; i++) {
-				// Delete roles in the server
-				message.guild.roles.cache.get(doc.gameRoles[i].id).delete();
+				try {
+					// Delete roles in the server
+					message.guild.roles.cache.get(doc.gameRoles[i].id).delete();
+				} catch(err) {
+					console.log(err);
+					message.reply(`There was an internal error when trying to perform that command.`);
+				}
 			}
 
 			// Delete all game roles from the database

@@ -8,8 +8,6 @@ const config = require('../../config.json');
 module.exports = async function createGameRoles(message, mongoClient) {
 	let servers = mongoClient.db('discordbot').collection('servers');
 	let cursor = servers.find( { id: message.guild.id } );
-	console.log(`The guild id: ${message.guild.id}`);
-	console.log(`The guild name: ${message.guild.name}`);
 
 	try {
 		cursor.forEach(async doc => {

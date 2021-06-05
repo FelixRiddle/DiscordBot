@@ -21,8 +21,8 @@ module.exports = {
 				$push: {
 					gameRoles: {
 						roleName: messageArgs[0],
-						textChannels: messageArgs[1],
-						voiceChannels: messageArgs[2],
+						textChannels: parseInt(messageArgs[1]),
+						voiceChannels: parseInt(messageArgs[2]),
 					},
 				},
 			};
@@ -32,7 +32,7 @@ module.exports = {
 				$push: {
 					gameRoles: {
 						roleName: messageArgs[0],
-						textChannels: messageArgs[1],
+						textChannels: parseInt(messageArgs[1]),
 					},
 				},
 			};

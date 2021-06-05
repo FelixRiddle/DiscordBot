@@ -1,4 +1,4 @@
-const createGameChannels = require('../../roles/gamingChannel/createGameChannels');
+const createGameChannels = require('../../roles/gamingChannel/gameChannels/createGameChannels');
 const insertUpdateDiscordServer = require('../../database/insertUpdateDiscordServer')
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
   'this command ofte nas it is a very limited feature in discord).',
   permissions: 'ADMINISTRATOR',
   aliases: ['creategamechannels'],
-  cooldown: 3000,
+  cooldown: 100,
   async execute(message, messageArgs, mongoClient) {
 
     // Check if the server exists or create it

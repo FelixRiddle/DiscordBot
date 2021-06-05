@@ -18,6 +18,14 @@ module.exports = {
 		await cursor.forEach(doc => {
 			// Check if game roles already exists
 			if(doc.gameRoles !== undefined) {
+				// First delete game roles in the server
+				for(let i = 0; i < doc.gameRoles.length; i++) {
+					let role = message.guild.roles.cache.find(role => role.name == doc.gameRoles[i].roleName);
+					role.delete('Goodbye')
+						.catch(console.error);
+				}
+
+				// Then update
 				let update = { $unset: { gameRoles: "" } };
 				servers.updateOne(query, update);
 			}
@@ -31,8 +39,8 @@ module.exports = {
 				$push: {
 					gameRoles: {
 						roleName: messageArgs[0],
-						textChannels: messageArgs[1],
-						voiceChannels: messageArgs[2],
+						textChannels: parseInt(messageArgs[1]),
+						voiceChannels: parseInt(messageArgs[2]),
 					},
 				},
 			};
@@ -42,7 +50,7 @@ module.exports = {
 				$push: {
 					gameRoles: {
 						roleName: messageArgs[0],
-						textChannels: messageArgs[1],
+						textChannels: parseInt(messageArgs[1]),
 					},
 				},
 			};
@@ -58,5 +66,6 @@ module.exports = {
 		}
 
 		servers.updateOne(query, update, { upsert: true });
+		message.reply(`Game role set successfully.`);
 	}
 }
