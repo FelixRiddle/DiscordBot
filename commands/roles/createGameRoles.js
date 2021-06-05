@@ -1,5 +1,4 @@
 const createGameRoles = require('../../roles/gamingChannel/createGameRoles');
-const createGameChannels = require('../../roles/gamingChannel/createGameChannels');
 const insertUpdateDiscordServer = require('../../database/insertUpdateDiscordServer')
 
 module.exports = {
