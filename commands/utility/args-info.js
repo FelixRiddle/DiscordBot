@@ -4,9 +4,9 @@ module.exports = {
   args: true,
   execute(message, messageArgs) {
     if(messageArgs[0] === 'foo') {
-      return msg.channel.send('bar');
+      return message.channel.send('bar');
     }
 
-    msg.channel.send(`Command name: ${command}\nArguments: ${messageArgs}`);
+    message.reply(`Arguments: ${messageArgs}`);
   },
 };
