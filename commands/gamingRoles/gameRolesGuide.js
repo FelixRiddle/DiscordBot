@@ -56,9 +56,51 @@ module.exports = {
 			const exampleEmbed = new Discord.MessageEmbed()
 				.setColor('#' + randomColor)
 				.setTitle('Roles guide(Page 2)')
-				.setDescription(data);
+				.setDescription(data)
+				.setFooter(`Use ${config.prefix}gameRolesGuide 3 to read the next page.`);
 			
 			message.reply(exampleEmbed);
+		} else if(messageArgs[0] == 3) {
+			let data = [];
+			data.push('Now let\'s see how to delete roles and channels.\n');
+			data.push(`\*\*Note\*\* that all the commands below only deletes`);
+			data.push(`roles and channels created with this bot.\n`);
+			data.push('To delete \*\*all\*\* roles use this command:');
+			data.push(`\`\`\`${config.prefix}deleteGameRoles\`\`\``);
+			data.push(`\*\*Warning\*\*: If you have deleted all roles, you will not`);
+			data.push(`be able to delete all the channels by command, you will have to`);
+			data.push(`delete them manually.\n`);
+			data.push(`To delete \*\*all\*\* the channels use the following command:`);
+			data.push(`\`\`\`${config.prefix}deleteGameChannels\`\`\``);
+			data.push(`There is also a command to delete every role and channel`);
+			data.push(`in the server, the command is:`);
+			data.push(`\`\`\`${config.prefix}deleteGameRolesAndChannels\`\`\``);
+
+			let randomColor = Math.floor(Math.random()*16777215).toString(16);
+
+			// inside a command, event listener, etc.
+			const exampleEmbed = new Discord.MessageEmbed()
+				.setColor('#' + randomColor)
+				.setTitle('Roles guide(Page 3)')
+				.setDescription(data)
+				.setFooter(`Use ${config.prefix}gameRolesGuide 4 to view contact information.`);
+
+			message.reply(exampleEmbed);
+		} else if(messageArgs[0] == 4) {
+			let data = [];
+			data.push('If some of the features mentioned before doesn\'t work');
+			data.push('or you want to make a suggestion, you can contact me via');
+			data.push('this discord account: ' + config.myDiscordAccount);
+
+			let randomColor = Math.floor(Math.random()*16777215).toString(16);
+
+			// inside a command, event listener, etc.
+			const exampleEmbed = new Discord.MessageEmbed()
+				.setColor('#' + randomColor)
+				.setTitle('Roles guide(Page 4)')
+				.setDescription(data);
+
+			message.reply(exampleEmbed);
 		}
-	}
+	}//Fede-kun#6618
 }

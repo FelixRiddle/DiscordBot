@@ -3,12 +3,12 @@ const insertUpdateRoleChannel = require('../../roles/gamingChannel/insertUpdateR
 const insertRoleMessage = require('../../roles/gamingChannel/insertRoleMessage');
 
 module.exports = {
-  name: 'addGamingRoleChannel',
+  name: 'setGameRolePickeChannel',
   description: 'Add the channel used to give roles to people for gaming.',
   permissions: 'ADMINISTRATOR',
   args: true,
   usage: '<Channel ID>',
-  aliases: ['addgamingrolechannel'],
+  aliases: ['setgamerolepickerchannel'],
   cooldown: 5,
   execute(message, messageArgs, mongoClient, args) {
 

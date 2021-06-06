@@ -4,7 +4,7 @@ module.exports = {
   name: 'deleteAllGameRoles',
   description: 'Add game roles to the server.',
   permissions: 'ADMINISTRATOR',
-  aliases: ['deleteallgameroles'],
+  aliases: ['deleteallgameroles', 'deletegameroles', 'deleteGameRoles'],
   cooldown: 5,
   execute(message, messageArgs, mongoClient) {
 		// Delete all game roles

@@ -2,7 +2,7 @@ module.exports = {
   name: 'deleteAllGameChannels',
   description: `Deletes all gaming channels from the database.`,
   permissions: 'ADMINISTRATOR',
-  aliases: ['deleteallgamechannels'],
+  aliases: ['deleteallgamechannels', 'deletegamechannels', 'deleteGameChannels'],
   cooldown: 5,
   async execute(message, messageArgs, mongoClient) {
 		// Servers collection

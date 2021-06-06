@@ -5,7 +5,6 @@ module.exports = {
 	once: true,
 	async execute(discordClient, mongoClient) {
 		console.log(`Logged in as ${discordClient.user.tag}!`);
-		/*
 		try {
 			let servers = mongoClient.db('discordbot').collection('servers');
 			let cursor = await servers.find( { gamingRoleManagerChannelID: { $exists: true } } );
@@ -31,6 +30,6 @@ module.exports = {
 			//insertRoleMessage(, 'foo', mongoClient);
 		} catch(err) {
 			console.log(`There was a little error, but it doesn't matter :D`);
-		}//*/
+		}//
 	}
 }

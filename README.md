@@ -26,12 +26,12 @@ These are some features of this bot
 - [X] Command handler
 	- [X] Moderation commands
 	- [X] Set channels commands
-	- [] Set roles commands
+	- [X] Set roles commands
 - [X] Event handler
 - [X] Database
-- [] Roles
-- [] Permissions
-- [] Reactions
+- [X] Roles
+- [X] Permissions
+- [X] Reactions
 
 # Suggestions/Contact
-Send suggestions or contact me with this discord account: TestUser#0158
+Send suggestions or contact me with this discord account: Fede-kun#6618

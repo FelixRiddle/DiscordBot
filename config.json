@@ -2,5 +2,6 @@
 	"prefix": "$",
 	"reactions": "!$$",
 	"botName": "Epic bot",
-	"maxCommandChannels": 10
+	"maxCommandChannels": 10,
+	"myDiscordAccount": "Fede-kun#6618"
 }
