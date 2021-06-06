@@ -5,8 +5,9 @@
  * @param {*} guild The server/guild.
  * @param {*} name Name for this text channel.
  * @param {*} category Category in which this text channel belongs.
+ * @param {*} mongoClient A MongoDB Client.
  */
-module.exports = async function createGameTextChannel(role, guild, name, category) {
+module.exports = async function createGameTextChannel(role, guild, name, category, mongoClient) {
 	await guild.channels.create(name, {
 		type: 'text',
 		permissionOverwrites: [
@@ -21,5 +22,18 @@ module.exports = async function createGameTextChannel(role, guild, name, categor
 		],
 	}).then(channel => {
 		channel.setParent(category);
+
+		let servers = mongoClient.db('discordbot').collection('servers');
+		let query = { id: guild.id };
+		let update = {
+			$push: {
+				channels: {
+					name: channel.name,
+					type: 'text',
+					id: channel.id,
+				},
+			},
+		};
+		servers.updateOne(query, update);
 	});
 }

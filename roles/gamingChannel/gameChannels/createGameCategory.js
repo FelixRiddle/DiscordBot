@@ -4,8 +4,9 @@
  * @param {*} roles An existing game role.
  * @param {*} guild The server/guild.
  * @param {*} name Name for this category.
+ * @param {*} mongoClient A MongoDB client.
  */
-module.exports = async function createGameCategory(role, guild, name) {
+module.exports = async function createGameCategory(role, guild, name, mongoClient) {
 	await guild.channels.create(name, {
 		type: 'category',
 		permissionOverwrites: [
@@ -18,5 +19,18 @@ module.exports = async function createGameCategory(role, guild, name) {
 				deny: ['VIEW_CHANNEL'],
 			}
 		],
+	}).then(category => {
+		let servers = mongoClient.db('discordbot').collection('servers');
+		let query = { id: guild.id };
+		let update = {
+			$push: {
+				channels: {
+					name: category.name,
+					type: 'category',
+					id: category.id,
+				},
+			},
+		};
+		servers.updateOne(query, update);
 	});
 }

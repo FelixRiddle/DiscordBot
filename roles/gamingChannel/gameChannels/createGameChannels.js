@@ -1,4 +1,3 @@
-const config = require('../../../config.json');
 const createGameTextChannel = require('./createGameTextChannel');
 const createGameCategory = require('./createGameCategory');
 const createGameVoiceChannel = require('./createGameVoiceChannel');
@@ -8,131 +7,113 @@ module.exports = async function createGameChannels(message, mongoClient) {
 	let guild = message.guild;
 
 	const query = { id: guild.id };
-	const options = { upsert: true };
-	let time = 15000;
-	let gameChannels = [];
+	//let time = 15000;
 
 	let cursor = await servers.find(query);
 
 	await cursor.forEach(async doc => {
-		for(let i = 0; i < doc.gameRoles.length; i++) {
+		continueHere: for(let i = 0; i < doc.gameRoles.length; i++) {
 			// Get the roles by name
 			let role = await guild.roles.cache.find(role => role.name == doc.gameRoles[i].roleName);
 
-			await createGameCategory(role, guild, doc.gameRoles[i].roleName);
+			if(doc.channels && doc.channels[i].name && doc.channels.name === doc.gameRoles[i].name &&
+				doc.channels.type == 'category') {
+				console.log(`The category already exists!`);
+				continue;
+			}
 
-			await guild.channels.cache.find(channels => {
-				if(channels.name === doc.gameRoles[i].roleName &&
-						channels.type == 'category') {
-					let category = channels;
+			if(!doc.channels) {
+				await createGameCategory(role, guild, doc.gameRoles[i].roleName, mongoClient);
 
-					// Create text channels
-					for(let j = 0; j < doc.gameRoles[i].textChannels; j++) {
-						createGameTextChannel(role,
-							guild,
-							doc.gameRoles[i].roleName + " " + (j + 1),
-							category);
-						// For testing purposes
+				await guild.channels.cache.find(channels => {
+					if(channels.name === doc.gameRoles[i].roleName &&
+							channels.type == 'category') {
+						let category = channels;
+
 						//setTimeout(() => { channel.delete(); }, time);
+						
+						// TODO: Check if the user provided an amount of textchannels
+						// Create text channels
+						if(doc.gameRoles[i].textChannels) {
+							for(let j = 0; j < doc.gameRoles[i].textChannels; j++) {
+								createGameTextChannel(role,
+									guild,
+									doc.gameRoles[i].roleName + " " + (j + 1),
+									category,
+									mongoClient);
+								
+								// For testing purposes
+								//setTimeout(() => { channel.delete(); }, time);
+							}
+						}
+			
+						// Create voice channels
+						if(doc.gameRoles[i].voiceChannels) {
+							for(let j = 0; j < doc.gameRoles[i].voiceChannels; j++) {
+								createGameVoiceChannel(
+									role,
+									guild,
+									`${doc.gameRoles[i].roleName} voice ${j + 1}`,
+									category,
+									mongoClient);
+
+								// For testing purposes
+								//setTimeout(() => { channel.delete(); }, time);
+							}
+						}
+						console.log(`The channel ${doc.channels[i].name} already exist`);
 					}
-		
-					// Create voice channels
-					for(let j = 0; j < doc.gameRoles[i].voiceChannels; j++) {
-						createGameVoiceChannel(
-							role,
-							guild,
-							`${doc.gameRoles[i].roleName} voice ${j + 1}`,
-							category);
-						// For testing purposes
-						//setTimeout(() => { channel.delete(); }, time);
+				});
+			} else {
+				// If the channels already exist proceed to the next
+				for(let j = 0; j < doc.channels.length; j++) {
+					if(doc.channels[j].name && doc.channels[j].name == doc.gameRoles[i].roleName) {
+						continue continueHere;
 					}
 				}
-			});
+
+				await createGameCategory(role, guild, doc.gameRoles[i].roleName, mongoClient);
+
+				await guild.channels.cache.find(channels => {
+					if(channels.name === doc.gameRoles[i].roleName &&
+							channels.type == 'category') {
+						let category = channels;
+
+						//setTimeout(() => { channel.delete(); }, time);
+						
+						// TODO: Check if the user provided an amount of textchannels
+						// Create text channels
+						if(doc.gameRoles[i].textChannels) {
+							for(let j = 0; j < doc.gameRoles[i].textChannels; j++) {
+								createGameTextChannel(role,
+									guild,
+									doc.gameRoles[i].roleName + " " + (j + 1),
+									category,
+									mongoClient);
+								
+								// For testing purposes
+								//setTimeout(() => { channel.delete(); }, time);
+							}
+						}
+			
+						// Create voice channels
+						if(doc.gameRoles[i].voiceChannels) {
+							for(let j = 0; j < doc.gameRoles[i].voiceChannels; j++) {
+								createGameVoiceChannel(
+									role,
+									guild,
+									`${doc.gameRoles[i].roleName} voice ${j + 1}`,
+									category,
+									mongoClient);
+
+								// For testing purposes
+								//setTimeout(() => { channel.delete(); }, time);
+							}
+						}
+					}
+				});
+			}
 		}
 	});
-
-	// Create with category
-	// Create a new channel with permission overwrites
-	/*
-	for(let i = 0; i < config.gamingRoles.length; i++) {
-		let game = [];
-		let roles = await guild.roles.cache.find(role => role.name == config.gamingRoles[i].gameName);
-
-		await guild.channels.create(config.gamingRoles[i].gameName, {
-			type: 'text',
-			permissionOverwrites: [
-				{
-					id: roles.id,
-					allow: ['VIEW_CHANNEL'],
-				},
-				{
-					id: guild.roles.everyone.id,
-					deny: ['VIEW_CHANNEL'],
-				}
-			],
-		}).then(async channel => {
-			game.push({
-				textChannel: {
-					name: channel.name,
-					id: channel.id,
-				},
-			});
-
-			// For debug, auto delete channel
-
-			await guild.channels.create(config.gamingRoles[i].gameName, {
-				type: 'category',
-				permissionOverwrites: [
-					{
-						id: roles.id,
-						allow: ['VIEW_CHANNEL'],
-					},
-					{
-						id: guild.roles.everyone.id,
-						deny: ['VIEW_CHANNEL'],
-					}
-				],
-			}).then(async category => {
-				channel.setParent(category.id);
-
-				game.push({
-					category: {
-						name: category.name,
-						id: category.id,
-					},
-				});
-
-				//setTimeout(() => { category.delete(); }, time);
-
-				for(let i = 0; i < 3; i++) {
-					// Create a new channel with permission overwrites
-					await guild.channels.create('Voice ' + i, {
-						type: 'voice',
-						permissionOverwrites: [
-							{
-								id: roles.id,
-								allow: ['VIEW_CHANNEL'],
-							},
-							{
-								id: guild.roles.everyone.id,
-								deny: ['VIEW_CHANNEL'],
-							}
-						],
-					}).then(voice => {
-						voice.setParent(category.id);
-
-						game.push({
-							voice: {
-								name: voice.name,
-								id: voice.id,
-							},
-						});
-
-						//setTimeout(() => { voice.delete(); }, time);
-					});
-				}
-
-			});
-		});
-	}*/
+	cursor.close();
 }

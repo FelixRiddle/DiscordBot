@@ -64,7 +64,6 @@ module.exports = {
 						};
 
 						await serverCollection.updateOne(filter, updateDoc, options);
-						await message.reply(`The channel ${messageArgs[i]} was inserted successfully.`);
 					} else {
 						await message.reply(`The maximum amount of command channels is ${config.maxCommandChannels}`);
 					}

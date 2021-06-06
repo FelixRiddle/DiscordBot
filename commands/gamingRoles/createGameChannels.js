@@ -31,6 +31,7 @@ module.exports = {
     }
 
 		// Create the channels
-    createGameChannels(message, mongoClient);
+    await createGameChannels(message, mongoClient);
+    message.reply(`Game channels created.`)
 	},
 }

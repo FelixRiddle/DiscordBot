@@ -1,5 +1,3 @@
-const createGameRoles = require('../../roles/gamingChannel/createGameRoles');
-
 module.exports = {
   name: 'deleteAllRolesExcept',
   description: 'Deletes all the roles in a server except those that were passed as arguments.',

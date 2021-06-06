@@ -20,9 +20,13 @@ module.exports = {
 			if(doc.gameRoles !== undefined) {
 				// First delete game roles in the server
 				for(let i = 0; i < doc.gameRoles.length; i++) {
-					let role = message.guild.roles.cache.find(role => role.name == doc.gameRoles[i].roleName);
-					role.delete('Goodbye')
-						.catch(console.error);
+					try {
+						let role = message.guild.roles.cache.find(role => role.name == doc.gameRoles[i].roleName);
+						role.delete('Goodbye')
+							.catch(console.error);
+					} catch(err) {
+						console.log(`Role not found in setGameRole.`);
+					}
 				}
 
 				// Then update

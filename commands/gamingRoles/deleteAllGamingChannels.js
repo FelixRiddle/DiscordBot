@@ -29,6 +29,7 @@ module.exports = {
           }
         }
       }
+      
       message.reply(`All gaming channels were deleted.`);
     });
 	},
