@@ -55,8 +55,8 @@ module.exports = {
           message.reply(`Gameroles created.`);
         }
       } else {
-        message.reply(`You didn't insert any gameroles use the ${config.prefix}addGameRole or
-        ${config.prefix}setGameRole command!`);
+        message.reply(`You didn't insert any gameroles use the ${config.prefix}addGameRole` +
+        `or ${config.prefix}setGameRole command!`);
       }
     });
 	},
