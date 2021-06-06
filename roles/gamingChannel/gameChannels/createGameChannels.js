@@ -22,7 +22,7 @@ module.exports = async function createGameChannels(message, mongoClient) {
 				continue;
 			}
 
-			if(!doc.channels) {
+			if(!doc.gameChannels) {
 				await createGameCategory(role, guild, doc.gameRoles[i].roleName, mongoClient);
 
 				await guild.channels.cache.find(channels => {
@@ -61,13 +61,13 @@ module.exports = async function createGameChannels(message, mongoClient) {
 								//setTimeout(() => { channel.delete(); }, time);
 							}
 						}
-						console.log(`The channel ${doc.channels[i].name} already exist`);
 					}
 				});
 			} else {
 				// If the channels already exist proceed to the next
-				for(let j = 0; j < doc.channels.length; j++) {
-					if(doc.channels[j].name && doc.channels[j].name == doc.gameRoles[i].roleName) {
+				for(let j = 0; j < doc.gameChannels.length; j++) {
+					if(doc.gameChannels[j].name &&
+						doc.gameChannels[j].name == doc.gameRoles[i].roleName) {
 						continue continueHere;
 					}
 				}

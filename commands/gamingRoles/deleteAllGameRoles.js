@@ -1,4 +1,4 @@
-const deleteAllGameRoles = require('../../roles/gamingChannel/deleteAllGameRoles');
+const deleteAllGameRoles = require('../../roles/gamingChannel/gameRoles/deleteAllGameRoles');
 
 module.exports = {
   name: 'deleteAllGameRoles',

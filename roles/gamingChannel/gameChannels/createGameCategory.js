@@ -24,7 +24,7 @@ module.exports = async function createGameCategory(role, guild, name, mongoClien
 		let query = { id: guild.id };
 		let update = {
 			$push: {
-				channels: {
+				gameChannels: {
 					name: category.name,
 					type: 'category',
 					id: category.id,

@@ -27,7 +27,7 @@ module.exports = async function createGameVoiceChannel(role, guild, name, catego
 		let query = { id: guild.id };
 		let update = {
 			$push: {
-				channels: {
+				gameChannels: {
 					name: channel.name,
 					type: 'voice',
 					id: channel.id,

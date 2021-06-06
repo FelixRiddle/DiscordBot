@@ -27,7 +27,7 @@ module.exports = async function createGameTextChannel(role, guild, name, categor
 		let query = { id: guild.id };
 		let update = {
 			$push: {
-				channels: {
+				gameChannels: {
 					name: channel.name,
 					type: 'text',
 					id: channel.id,
