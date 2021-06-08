@@ -21,7 +21,7 @@ module.exports = {
 			data.push('The first argument is a text channel and the second argument are voice');
 			data.push('channels.\n');
 			data.push('**Usage**: ' + config.prefix + 'addGameRole <RoleName> <Textchannels amount> <Voice amount>');
-			data.push('Note: Don\'t put < or > in the arguments, do it like the example below.\n');
+			data.push('Note: Don\'t use < or > in the arguments, do it like the example below.\n');
 			data.push('**Example**: \`\`\`' + config.prefix + 'addGameRole Dota 1 3\`\`\`');
 			data.push('In the example above, we create a role with the name "Dota" and we assign');
 			data.push('1 text channels, and 3 voice channels.\n');
