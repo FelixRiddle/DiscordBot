@@ -5,7 +5,9 @@ MongoDB Node.js Driver: https://docs.mongodb.com/drivers/node/quick-start/
 
 # Start
 Start the bot with the following commands:
+
 Note: You need node.js and npm in your computer.
+
 Installing packages:
 ```batch
 npm i --save
